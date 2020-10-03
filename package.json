@@ -3,19 +3,25 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "yarn build-css && cross-env DEBUG=github-env-manager:* yarn start",
-    "build-css": "cross-env node_modules/postcss-cli/bin/postcss -c postcss.config.js public/css/style.css -o public/css/style.css"
+    "start": "NODE_ENV=production yarn serve",
+    "serve": "node ./bin/www",
+    "build": "yarn build-css",
+    "dev": "yarn build-css && cross-env DEBUG=github-env-manager:* NODE_ENV=development yarn serve",
+    "build-css": "cross-env node_modules/postcss-cli/bin/postcss -c postcss.config.js public/css/tailwind.css -o public/css/style.css"
   },
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^3.0.0",
     "autoprefixer": "9.8.6",
     "cookie-parser": "~1.4.4",
     "cross-env": "^7.0.2",
+    "cssnano": "^4.1.10",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "postcss-cli": "^8.0.0"
+    "nodemon": "^2.0.4",
+    "postcss-cli": "^8.0.0",
+    "tailwindcss": "^1.8.10"
   }
 }
