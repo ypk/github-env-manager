@@ -9,10 +9,12 @@
     <link rel="apple-touch-icon" href="/img/icon.svg" />
     <link rel="icon" type="image/svg+xml" sizes="64x64" href="/img/icon.svg" />
     <title>Github Environment Manager</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    
+    <link rel="preload" href="/css/style.css" as="style">
+    <link rel="stylesheet" prefetch href="/css/style.css" />
   </head>
-  <body>
-    <%-include common/header.ejs%>
+  <body class="antialiased">
+    <%- include('common/header', { userObject:null }); %>
     <div class="container mx-auto">
       <%-body %> <%-include common/footer.ejs%>
     </div>

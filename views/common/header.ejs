@@ -1,1 +1,79 @@
-This is header
+<nav class="bg-gray-900">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <div
+        class="flex items-center justify-center sm:items-stretch sm:justify-start"
+      >
+        <a
+          class="text-white font-semibold flex w-auto leading-8"
+          href="/"
+          title="Github Environment Manager"
+        >
+          Github Environment Manager
+        </a>
+      </div>
+      <% if(userObject === null) { %>
+      <a
+        class="flex rounded-lg border-2 border-white font-semibold py-1 px-4 leading-8 text-white hover:bg-gray-800"
+        href="/login"
+        >Sign In</a
+      >
+      <% } else { %>
+      <div
+        class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+      >
+        <div class="ml-3 relative">
+          <div class="user-menu-container">
+            <label
+              for="menu-toggle"
+              class="cursor-pointer block flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out"
+            >
+              <img
+                class="h-8 w-8 rounded-full"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+            </label>
+            <input class="hidden" type="checkbox" id="menu-toggle" />
+          </div>
+          <div
+            class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg"
+          >
+            <div
+              class="hidden py-1 rounded-md bg-white shadow-xs"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu"
+              id="menu"
+            >
+              <p
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                role="menuitem"
+              >
+                Logged in as ypk
+              </p>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                role="menuitem"
+                >Sign out</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</nav>
+<% if(userObject !== null) { %>
+<script type="text/javascript">
+  (function () {
+    const menuElement = document.getElementById("menu");
+    const menuToggle = document.getElementById("menu-toggle");
+    menuToggle.addEventListener("click", () => {
+      menuElement.classList.toggle("hidden");
+    });
+  })();
+</script>
+<% } %>
