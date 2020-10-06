@@ -2,11 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 var logger = require('morgan');
-var expressLayouts = require("express-ejs-layouts");
+var expressLayouts = require('express-ejs-layouts');
+require('dotenv').config();
 
+var session_secret = process.env.SESSION_SECRET;
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var authenticationRouter = require('./routes/authenticate');
+var environmentRouter = require('./routes/environments');
 
 var app = express();
 
@@ -23,8 +27,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cookieSession({
+  secret: session_secret
+}));
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/authenticate', authenticationRouter);
+app.use('/environments', environmentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
