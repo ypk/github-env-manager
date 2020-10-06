@@ -12,30 +12,42 @@
           Github Environment Manager
         </a>
       </div>
-      <% if(userObject === null) { %>
+      <% if(typeof user === "undefined" || user === null) { %>
       <a
         class="flex rounded-lg border-2 border-white font-semibold py-1 px-4 leading-8 text-white hover:bg-gray-800"
-        href="/login"
+        href="/authenticate"
         >Sign In</a
       >
-      <% } else { %>
+      <% } else if(typeof user !== "undefined" && user !== null) { %>
       <div
-        class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+        class="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0"
       >
-        <div class="ml-3 relative">
-          <div class="user-menu-container">
-            <label
-              for="menu-toggle"
-              class="cursor-pointer block flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out"
+        <div class="w-16 relative">
+          <label
+            for="menu-toggle"
+            class="block flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white"
+          >
+            <img
+              class="cursor-pointer h-8 w-8 ml-3 rounded-full"
+              src="<%=user.avatar%>"
+              alt="<%=user.name%>"
+            />
+            <div
+              class="hover:cursor-pointer absolute inset-y-0 right-0 flex items-center text-white"
             >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-            </label>
-            <input class="hidden" type="checkbox" id="menu-toggle" />
-          </div>
+              <svg
+                class="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                />
+              </svg>
+            </div>
+          </label>
+          <input class="hidden" type="checkbox" id="menu-toggle" />
+
           <div
             class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg"
           >
@@ -46,16 +58,19 @@
               aria-labelledby="user-menu"
               id="menu"
             >
-              <p
-                class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                role="menuitem"
-              >
-                Logged in as ypk
-              </p>
               <a
-                href="#"
+                href="<%=user.profile%>"
                 class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                 role="menuitem"
+                title="Signed in as <%=user.login%>"
+              >
+                Signed in as <span class="font-bold"><%=user.login%></span>
+              </a>
+              <a
+                href="/authenticate/logout"
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                role="menuitem"
+                title="Sign out"
                 >Sign out</a
               >
             </div>
@@ -66,7 +81,7 @@
     </div>
   </div>
 </nav>
-<% if(userObject !== null) { %>
+<% if(typeof user !== "undefined" && user !== null) {  %>
 <script type="text/javascript">
   (function () {
     const menuElement = document.getElementById("menu");

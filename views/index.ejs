@@ -1,14 +1,30 @@
 <div class="px-4">
   <div class="max-w-3xl bg-white rounded-lg mx-auto my-16 p-16">
-    <h1 class="text-2xl font-medium mb-2">Let's Build: With Tailwind CSS</h1>
-    <h2
-      class="font-medium text-sm text-indigo-400 mb-4 uppercase tracking-wide"
-    >
-      Responsive Navbar
+    <h1 class="text-2xl font-medium mb-2">Github Environment Manager</h1>
+    <p class="my-4 mb-10">
+      A simple tool to view and delete environments associated with your
+      repositories
+    </p>
+
+    <% if(typeof user === "undefined" || user === null) {%>
+    <h2 class="font-medium text-sm mb-4 uppercase tracking-wide">
+      <a
+        href="/authenticate"
+        class="text-blue-500 hover:text-blue-800 focus:text-blue-800 font-semibold"
+        title="Sign in with Github"
+        >Click here to begin</a
+      >
     </h2>
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum illo
-    cupiditate molestias atque consequuntur ea quo cumque, odit velit sint
-    similique? Asperiores ratione aperiam tempora, alias corrupti deleniti
-    quaerat molestiae.
+    <%} else if (typeof user !== "undefined" && user !== null) {%>
+      <p class="mb-8">Logged in as <span class="font-bold"><%=user.login%></span></p>
+    <h2 class="font-medium text-sm mb-4 uppercase tracking-wide">
+      <a
+        href="/environments"
+        class="text-blue-500 hover:text-blue-800 focus:text-blue-800 font-semibold"
+        title="List environments"
+        >List Environments</a
+      >
+    </h2>
+    <%}%>
   </div>
 </div>
