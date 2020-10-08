@@ -1,16 +1,15 @@
 var express = require("express");
-var createError = require('http-errors')
+var createError = require('http-errors');
 var router = express.Router();
+var { getRepositoriesWithDeployments } = require("../middleware");
 
 router.get("/", function (req, res, next) {
   if (req.session.user) {
     let userData = JSON.parse(req.session.user);
-    res.render("index", { user: userData });
+    let repoData = JSON.parse(req.session.repos);
+    res.render("environments", {user: userData, repos: repoData});
   } else {
-    var message = "Unauthorized user";
-    var err = createError(401, message);
-    res.status(401);
-    res.render('error', { error: err, message: message });
+    return next(createError(401, "Unauthorized Access"))
   }
 });
 

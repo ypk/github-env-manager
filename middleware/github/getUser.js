@@ -5,7 +5,8 @@ const getUser = async (auth_code) => {
   try {
     const request = await fetch(api_uri, {
       headers: {
-        Authorization: `Bearer ${auth_code}`,
+        "Authorization": `Bearer ${auth_code}`,
+        "Content-Type": "application/json"
       },
     });
     const data = await request.text();

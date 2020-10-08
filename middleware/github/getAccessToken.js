@@ -5,7 +5,7 @@ const getAccessToken = async (client_id, client_secret, code) => {
   try {
     const response = await fetch(oauth_uri, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({

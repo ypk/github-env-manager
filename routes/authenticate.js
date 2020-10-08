@@ -1,5 +1,5 @@
 var express = require("express");
-var { getAccessToken, getUser } = require("../middleware");
+var { getAccessToken, getUser, getRepositories } = require("../middleware");
 require("dotenv").config();
 var router = express.Router();
 
@@ -15,6 +15,9 @@ router.get("/", function (req, res, next) {
 router.get("/callback", async function (req, res, next) {
   const code = req.query.code;
   const token = await getAccessToken(github_client_id, github_client_secret, code);
+  const repos = await getRepositories(token);
+  req.session.token = token;
+  req.app.locals.token = token;
   const user = await getUser(token);
   if (user) {
     let parsedUser = JSON.parse(user);
@@ -26,9 +29,11 @@ router.get("/callback", async function (req, res, next) {
       profile: parsedUser.html_url
     }
     req.session.user = JSON.stringify(userObj);
-    req.session.token = token;
     req.app.locals.user = userObj;
-    req.app.locals.token = token;
+    if(repos) {
+      req.session.repos = JSON.stringify(repos);
+      req.app.locals.user = JSON.stringify(repos);
+    }
     res.redirect("/");
   } else {
     const errorMessage = "Error trying to fetch user details";
