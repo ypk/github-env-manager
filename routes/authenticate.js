@@ -1,7 +1,7 @@
-var express = require("express");
-var { getAccessToken, getUser, getRepositories } = require("../middleware");
+const express = require("express");
+const { getAccessToken, getUser, getRepositories } = require("../middleware");
 require("dotenv").config();
-var router = express.Router();
+const router = express.Router();
 
 const github_client_id = process.env.GITHUB_CLIENT_ID;
 const github_client_secret = process.env.GITHUB_CLIENT_SECRET;
@@ -14,23 +14,27 @@ router.get("/", function (req, res, next) {
 
 router.get("/callback", async function (req, res, next) {
   const code = req.query.code;
-  const token = await getAccessToken(github_client_id, github_client_secret, code);
+  const token = await getAccessToken(
+    github_client_id,
+    github_client_secret,
+    code
+  );
   const repos = await getRepositories(token);
   req.session.token = token;
   req.app.locals.token = token;
   const user = await getUser(token);
   if (user) {
-    let parsedUser = JSON.parse(user);
+    const parsedUser = JSON.parse(user);
     const userObj = {
       id: parsedUser.id,
       name: parsedUser.name,
       login: parsedUser.login,
       avatar: parsedUser.avatar_url,
-      profile: parsedUser.html_url
-    }
+      profile: parsedUser.html_url,
+    };
     req.session.user = JSON.stringify(userObj);
     req.app.locals.user = userObj;
-    if(repos) {
+    if (repos) {
       req.session.repos = JSON.stringify(repos);
       req.app.locals.user = JSON.stringify(repos);
     }
@@ -43,10 +47,10 @@ router.get("/callback", async function (req, res, next) {
 });
 
 router.get("/logout", async function (req, res, next) {
-    res.app.locals.token = null;
-    res.app.locals.user = null;
-    req.session = null;
-    res.redirect("/");
+  res.app.locals.token = null;
+  res.app.locals.user = null;
+  req.session = null;
+  res.redirect("/");
 });
 
 module.exports = router;

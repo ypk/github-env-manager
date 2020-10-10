@@ -1,45 +1,48 @@
-<div class="py-10">
-  <div class="text-center lg:px-4">
-    <div
-      class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
-      role="alert"
-    >
-      <span
-        class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3"
-        >📣</span
+<% if(message !== null ) {%>
+  <div class="py-10">
+    <div class="text-center lg:px-4">
+      <div
+        class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+        role="alert"
       >
-      <span class="font-semibold mr-2 text-left flex-auto"
-        >We've found the following repositories associated with your
-        account</span
-      >
-    </div>
-  </div>
-</div>
-<div class="px-2 sm:px-6 lg:px-8 md:mt-8 mb-8 md:my-16">
-  <div class="grid md:grid-cols-3 gap-4 md:gap-8">
-    <% repos.forEach((repo, index) => {%>
-    <div
-      class="max-w-sm border bg-white border-gray-300 rounded overflow-hidden shadow-md"
-    >
-      <div class="px-6 py-4 border-b border-gray-300">
-        <p class="text-xl"><%= repo.name %></p>
-        <p class="text-sm text-gray-500 h-16">
-          <%=repo.description || 'No Description Available'%>
-        </p>
-      </div>
-      <div class="flex items-center flex-row">
-        <a
-          class="px-6 w-1/2 py-4 text-center text-gray-700 border-r border-gray-200 hover:bg-gray-100"
-          href="<%=repo.html_url%>"
-          >View</a
+        <span
+          class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3"
+          >📣</span
         >
-        <a
-          class="px-6 w-1/2 py-4 text-center text-gray-700 border-l border-gray-200 hover:bg-gray-100"
-          href="/?manage=<%=repo.name%>"
-          >Manage</a
+        <span class="font-semibold mr-2 text-left flex-auto"
+          ><%=message%></span
         >
       </div>
     </div>
-    <%});%>
   </div>
-</div>
+<%}%>
+<% if(typeof repos !== "undefined" ) {%>
+  <div class="px-2 sm:px-6 lg:px-8 md:mt-8 mb-8 md:my-16">
+    <div class="grid md:grid-cols-3 gap-4 md:gap-8">
+      <% repos.forEach((repo, index) => {%>
+      <div
+        class="max-w-sm border bg-white border-gray-300 rounded overflow-hidden shadow-md"
+      >
+        <div class="px-6 py-4 border-b border-gray-300">
+          <p class="text-xl"><%= repo.name %></p>
+          <p class="text-sm text-gray-500 h-16">
+            <%=repo.description || 'No Description Available'%>
+          </p>
+        </div>
+        <div class="flex items-center flex-row">
+          <a
+            class="px-6 w-1/2 py-4 text-center text-gray-700 border-r border-gray-200 hover:bg-gray-100"
+            href="<%=repo.html_url%>"
+            >View</a
+          >
+          <a
+            class="px-6 w-1/2 py-4 text-center text-gray-700 border-l border-gray-200 hover:bg-gray-100"
+            href="/environments/manage/<%=repo.id%>"
+            >Manage</a
+          >
+        </div>
+      </div>
+      <%});%>
+    </div>
+  </div>
+<%}%>

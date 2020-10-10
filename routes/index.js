@@ -1,12 +1,11 @@
-var express = require("express");
-var router = express.Router();
+var indexRouter = require("./root");
+var authenticationRouter = require("./authenticate");
+var environmentRouter = require("./environments");
+var authorizeRouter = require("./authorize");
 
-router.get("/", function (req, res, next) {
-  if (req.session.user) {
-    res.redirect("/environments");
-  } else {
-    res.render("index");
-  }
-});
-
-module.exports = router;
+module.exports = {
+  indexRouter,
+  authenticationRouter,
+  environmentRouter,
+  authorizeRouter
+};
