@@ -1,11 +1,11 @@
-var fetch = require("node-fetch");
+const fetch = require("node-fetch");
 
 const getAccessToken = async (client_id, client_secret, code) => {
   const oauth_uri = "https://github.com/login/oauth/access_token";
   try {
     const response = await fetch(oauth_uri, {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
       body: JSON.stringify({

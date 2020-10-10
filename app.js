@@ -9,9 +9,13 @@ var expressLayouts = require("express-ejs-layouts");
 require("dotenv").config();
 
 var session_secret = process.env.SESSION_SECRET;
-var indexRouter = require("./routes/index");
-var authenticationRouter = require("./routes/authenticate");
-var environmentRouter = require("./routes/environments");
+var {
+  indexRouter,
+  authenticationRouter,
+  environmentRouter,
+  authorizeRouter
+} = require("./routes/index");
+
 
 var app = express();
 
@@ -46,6 +50,7 @@ app.use(
 app.use("/", indexRouter);
 app.use("/authenticate", authenticationRouter);
 app.use("/environments", environmentRouter);
+app.use("/authorize", authorizeRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
