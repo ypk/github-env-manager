@@ -1,0 +1,87 @@
+<% if(typeof message !== "undefined" && message !== null ) {%>
+  <div class="py-10">
+    <div class="text-center lg:px-4">
+      <div
+        class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+        role="alert"
+      >
+        <span
+          class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3"
+          >📣</span
+        >
+        <span class="font-semibold mr-2 text-left flex-auto"><%=message%></span>
+      </div>
+    </div>
+  </div>
+<%}%>
+
+<div class="w-full overflow-hidden rounded-lg shadow-xs">
+  <div class="w-full overflow-x-auto">
+    <table class="w-full whitespace-no-wrap">
+      <thead>
+        <tr
+          class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+        >
+          <th class="p-4">deployment id</th>
+          <th class="p-4">description</th>
+          <th class="p-4">environment</th>
+          <th class="p-4">created</th>
+          <th class="p-4">updated</th>
+          <th class="p-4">by</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+        <%deployments.forEach(deployment => {%>
+          <tr class="text-gray-700 dark:text-gray-400">
+            <td class="p-4">
+              <p class="text-gray-900 whitespace-no-wrap">
+                <a
+                  class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
+                  href="manage"
+                  title="Link to deployment #<%=deployment.id%>"
+                  ><%=deployment.id%></a
+                >
+              </p>
+            </td>
+            <td class="p-4">
+              <p class="whitespace-no-wrap text-gray-500 text-sm italic">
+                <%=deployment.description || "No description provided"%>
+              </p>
+            </td>
+            <td class="p-4">
+              <p class="text-gray-900 whitespace-no-wrap">
+                <%=deployment.environment%>
+              </p>
+            </td>
+            <td class="p-4">
+              <p
+                class="text-gray-900 whitespace-no-wrap"
+                title="<%=helpers.humanReadable(deployment.created_at);%>"
+              >
+                <%=helpers.timeAgo(deployment.created_at);%>
+              </p>
+            </td>
+            <td class="p-4">
+              <p
+                class="text-gray-900 whitespace-no-wrap"
+                title="<%=helpers.humanReadable(deployment.updated_at);%>"
+              >
+                <%=helpers.timeAgo(deployment.updated_at);%>
+              </p>
+            </td>
+            <td class="p-4">
+              <p class="text-gray-900 whitespace-no-wrap">
+                <a
+                  class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
+                  href="<%=deployment.creator.html_url%>"
+                  ><%=deployment.creator.login%></a
+                >
+              </p>
+            </td>
+          </tr>
+          
+        <%});%>
+      </tbody>
+    </table>
+  </div>
+</div>

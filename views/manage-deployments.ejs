@@ -1,0 +1,23 @@
+<tr>
+    <%deployment.status.forEach(status => {%>
+      <div>
+        <p><%=status.id%></p>
+        <p><%=status.state%></p>
+        <p><%=status.description%></p>
+        <p><%=status.environment%></p>
+        <p><%=status.target_url%></p>
+        <p
+          class="text-gray-900 whitespace-no-wrap"
+          title="<%=helpers.humanReadable(status.updated_at);%>"
+        >
+          <%=helpers.timeAgo(status.updated_at);%>
+        </p>
+        <p
+          class="text-gray-900 whitespace-no-wrap"
+          title="<%=helpers.humanReadable(status.updated_at);%>"
+        >
+          <%=helpers.timeAgo(status.updated_at);%>
+        </p>
+      <div>
+    <%});%>
+  </tr>
