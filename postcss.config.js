@@ -7,7 +7,7 @@ const purgecss = require("@fullhuman/postcss-purgecss")({
 const plugins = [
   require("tailwindcss"),
   require("autoprefixer"),
-  ...(isProd ? [purgecss, require("cssnano")]: []),
+  ...(!isProd ? [purgecss, require("cssnano")]: []),
 ];
 
 module.exports = {

@@ -1,4 +1,4 @@
-<% if(message !== null ) {%>
+<% if(typeof message !== "undefined" && message !== null ) {%>
   <div class="py-10">
     <div class="text-center lg:px-4">
       <div
@@ -37,7 +37,7 @@
           >
           <a
             class="px-6 w-1/2 py-4 text-center text-gray-700 border-l border-gray-200 hover:bg-gray-100"
-            href="/environments/manage/<%=repo.id%>"
+            href="/environments/<%=repo.id%>"
             >Manage</a
           >
         </div>
