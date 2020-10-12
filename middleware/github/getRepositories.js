@@ -16,8 +16,24 @@ const getRepositories = async (auth_code) => {
   }
 };
 
+const getDeploymentStatus = async (req, api_uri) => {
+  const { pat } = req.session;
+  try {
+    const request = await fetch(api_uri, {
+      headers: {
+        "Authorization": `token ${pat}`
+      }
+    });
+    const data = await request.json();
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+
 const getDeployments = async (req, repoId) => {
-  const { token, user, repos } = req.session;
+  const { pat, user, repos } = req.session;
   const userData = JSON.parse(user);
   const repoList = JSON.parse(repos);
   const repoName = repoList.find((repo) => repo.id == repoId).name;
@@ -25,14 +41,12 @@ const getDeployments = async (req, repoId) => {
   try {
     const request = await fetch(api_uri, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${pat}`,
         "Accept": "application/vnd.github.v3+json",
         "Content-Type": "application/json",
       },
     });
     const data = await request.json();
-
-console.log(data)
     return data;
   } catch (e) {
     console.error(e);
@@ -42,4 +56,5 @@ console.log(data)
 module.exports = {
   getRepositories,
   getDeployments,
+  getDeploymentStatus
 };
