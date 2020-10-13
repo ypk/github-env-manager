@@ -38,23 +38,21 @@ async function getDeploymentData (req, deployments) {
       );
       const extractedStatus = deploymentStatus.map((status) => {
         const {
-          urlencoded,
           id,
-          node_id,
           state,
           description,
           environment,
+          url,
           target_url,
           created_at,
           updated_at,
         } = status;
         return {
-          urlencoded,
           id,
-          node_id,
           state,
           description,
           environment,
+          url,
           target_url,
           created_at,
           updated_at,
