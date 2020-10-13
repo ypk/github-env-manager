@@ -1,21 +1,5 @@
-<% if(typeof message !== "undefined" && message !== null ) {%>
-  <div class="py-10">
-    <div class="text-center lg:px-4">
-      <div
-        class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
-        role="alert"
-      >
-        <span
-          class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3"
-          >📣</span
-        >
-        <span class="font-semibold mr-2 text-left flex-auto"
-          ><%=message%></span
-        >
-      </div>
-    </div>
-  </div>
-<%}%>
+<%-include("common/message.ejs", {message: message})%>
+
 <% if(typeof repos !== "undefined" ) {%>
   <div class="px-2 sm:px-6 lg:px-8 md:mt-8 mb-8 md:my-16">
     <div class="grid md:grid-cols-3 gap-4 md:gap-8">
