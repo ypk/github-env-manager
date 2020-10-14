@@ -47,7 +47,40 @@ const getDeployments = async (req, repoId) => {
       },
     });
     const data = await request.json();
-    return data;
+    
+    let deploymentData = await Promise.all(
+      data.map(async (deployment) => {
+        let deploymentStatus = await getDeploymentStatus(
+          req,
+          deployment.statuses_url
+        );
+        const extractedStatus = deploymentStatus.map((status) => {
+          const {
+            id,
+            state,
+            description,
+            environment,
+            url,
+            target_url,
+            created_at,
+            updated_at,
+          } = status;
+          return {
+            id,
+            state,
+            description,
+            environment,
+            url,
+            target_url,
+            created_at,
+            updated_at,
+          };
+        });
+        deployment.status = extractedStatus;
+        return deployment;
+      })
+    );
+    return deploymentData;
   } catch (e) {
     console.error(e);
   }

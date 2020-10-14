@@ -50,13 +50,13 @@
                 <span
                   class="px-4 py-2 whitespace-no-wrap no-underline rounded-full font-semibold text-sm text-center text-white bg-orange-500 border-orange-500"
                 >
-                  <%} else if(status.state ==="failed") {%>
+                  <%} else if(status.state ==="failure") {%>
                 </span>
     
                 <span
                   class="px-4 py-2 whitespace-no-wrap no-underline rounded-full font-semibold text-sm text-center text-white bg-red-500 border-red-500"
                 >
-                  <%} else if(status.state ==="pending") {%>
+                  <%} else {%>
                 </span>
     
                 <span
@@ -80,7 +80,7 @@
             <p class="p-4 leading-4 md:leading-normal text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tr-lg md:border-b md:bg-gray-900 '%>">action</p>
             <a
             class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
-            href="<%=status.url%>"
+            href="/environments<%=reqUrl%>/delete/<%=status.id%>"
               title="Delete deployment"
             >
               <p class="p-4 leading-4 md:leading-normal">Delete</p>
@@ -94,7 +94,6 @@
     <%});%>
   </div>
 </div>
-
 <%-include("common/cta.ejs", {
   url:`/environments/${repoId}`,
   title:"Go back to deployments",
