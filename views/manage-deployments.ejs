@@ -1,7 +1,9 @@
 <%-include("common/message.ejs", {message: message})%>
-
+<h2 class="mt-4 mb-8 font-bold text-lg tracking-wide">
+  Deployment History / Status
+</h2>
 <div class="w-full md:rounded-lg md:shadow-md">
-  <div class="grid grid-rows-8 sm:grid-cols-none md:grid-rows-none md:grid-cols-8 bg-white text-gray-700  md:rounded-lg">
+  <div class="grid grid-rows-7 sm:grid-cols-none md:grid-rows-none md:grid-cols-7 bg-white text-gray-700  md:rounded-lg">
     <%deployments.forEach((deployment) => { %>
       <% if(deployment.id.toString() === deploymentId) {%>
         <%deployment.status.forEach((status, index) => {%>
@@ -66,25 +68,19 @@
                 </span>    
             </p>
           </div>
-          <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
-            <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">url</p>
-            <a
-            class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
-            href="<%=status.target_url%>"
-            title="Link to deployment"
-            >            
-              <p class="p-4 leading-4 md:leading-normal">Link</p>
-            </a>
-          </div>
           <div class="flex justify-between md:block border  md:border-none rounded-b-lg md:rounded-b-none">
-            <p class="p-4 leading-4 md:leading-normal text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tr-lg md:border-b md:bg-gray-900 '%>">action</p>
-            <a
-            class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
-            href="/environments<%=reqUrl%>/delete/<%=status.id%>"
-              title="Delete deployment"
-            >
-              <p class="p-4 leading-4 md:leading-normal">Delete</p>
-            </a>
+            <p class="p-4 leading-4 md:leading-normal text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tr-lg md:border-b md:bg-gray-900 '%>">url</p>
+            <%if(status.state !== "inactive") {%>
+              <a
+                class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
+                href="<%=status.target_url%>"
+                title="Link to deployment"
+              >
+                <p class="p-4 leading-4 md:leading-normal">Link</p>
+              </a>
+            <%} else { %>
+              <p class="p-4 leading-4 md:leading-normal">N/A</p>
+            <%}%>
           </div>
           <%if(index === 0 || (index % 8 !== 0 && index != status.length - 1)) {%>
             <div class="bg-gray-100 md:hidden h-4"></div>

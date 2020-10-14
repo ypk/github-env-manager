@@ -1,65 +1,102 @@
 <%-include("common/message.ejs", {message: message})%>
-<h2 class="mt-4 mb-8 font-medium text-lg tracking-wide">
- Click on the <code>deployment id</code> to view/manage the deployments
+<h2 class="mt-4 mb-8 font-bold text-lg tracking-wide">
+  Deployments
 </h2>
 <div class="w-full md:rounded-lg md:shadow-md">
- <div class="grid grid-rows-6 sm:grid-cols-none md:grid-rows-none md:grid-cols-6 bg-white text-gray-700  md:rounded-lg">
-   <%deployments.forEach((deployment, index) => { %>
-      <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b rounded-t-lg md:rounded-t-none">
-        <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tl-lg md:border-b md:bg-gray-900 '%>">id</p>
-        <a
-          class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
-          href="/environments/<%=repoId%>/deployment/<%=deployment.id%>"
-          title="Link to deployment #<%=deployment.id%>"
-        >
-        <p class=" p-4 leading-4 md:leading-normal">
-          <%=deployment.id%>
-        </p>
-
-        </a>
-      </div>
-      <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
-        <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">description</p>
-        <p class="p-4 leading-4 md:leading-normal text-gray-500 italic"><%=deployment.description || "No description provided"%></p>
-      </div>
-      <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
-        <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">environment</p>
-        <p class="p-4 leading-4 md:leading-normal"><%=deployment.environment%></p>
-      </div>
-      <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
-        <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">created</p>
-        <p
-          class="p-4 leading-4 text-gray-900 whitespace-no-wrap"
-          title="<%=helpers.humanReadable(deployment.created_at);%>"
-        >
-          <%=helpers.timeAgo(deployment.created_at);%>
-        </p>
-      </div>
-      <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
-        <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">updated</p>
-        <p
-          class="p-4 leading-4 md:leading-normal text-gray-900 whitespace-no-wrap"
-          title="<%=helpers.humanReadable(deployment.updated_at);%>"
-        >
-          <%=helpers.timeAgo(deployment.updated_at);%>
-        </p>
-      </div>
-      <div class="flex justify-between md:block border  md:border-none rounded-b-lg md:rounded-b-none">
-        <p class="p-4 leading-4 md:leading-normal text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tr-lg md:border-b md:bg-gray-900 '%>">by</p>
-        <a
+ <div class="grid grid-rows-8 sm:grid-cols-none md:grid-rows-none md:grid-cols-8 bg-white text-gray-700 md:rounded-lg">
+  <%deployments.forEach((deployment, index) => { %>
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b rounded-t-lg md:rounded-t-none">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tl-lg md:border-b md:bg-gray-900 '%>">id</p>
+    <p class=" p-4 leading-4 md:leading-normal">
+      <%=deployment.id%>
+     </p>
+   </div>
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">description</p>
+    <p class="p-4 leading-4 md:leading-normal text-gray-500 italic"><%=deployment.description || "No description provided"%></p>
+   </div>
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">environment</p>
+    <p class="p-4 leading-4 md:leading-normal"><%=deployment.environment%></p>
+   </div>
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">created</p>
+    <p
+     class="p-4 leading-4 text-gray-900 whitespace-no-wrap"
+     title="<%=helpers.humanReadable(deployment.created_at);%>"
+    >
+     <%=helpers.timeAgo(deployment.created_at);%>
+    </p>
+   </div>
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">updated</p>
+    <p
+     class="p-4 leading-4 md:leading-normal text-gray-900 whitespace-no-wrap"
+     title="<%=helpers.humanReadable(deployment.updated_at);%>"
+    >
+     <%=helpers.timeAgo(deployment.updated_at);%>
+    </p>
+   </div>
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">updated</p>
+    <a
+    class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
+    href="<%=deployment.creator.html_url%>"
+    >
+    <p class="p-4 leading-4 md:leading-normal"><%=deployment.creator.login%></p>
+    </a>
+   </div>
+   <div class="flex justify-between md:block border md:border-none rounded-b-lg md:rounded-b-none">
+    <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">status</p>
+    <p class="p-4 leading-4 md:leading-normal">
+     <%if(deployment.status[0].state ==="success") {%>
+      <span
+       class="px-4 py-2 whitespace-no-wrap no-underline rounded-full font-semibold text-sm text-center text-white bg-green-500 border-green-500"
+      >
+       <%} else if(deployment.status[0].state ==="pending") {%>
+      </span>
+      <span
+       class="px-4 py-2 whitespace-no-wrap no-underline rounded-full font-semibold text-sm text-center text-white bg-orange-500 border-orange-500"
+      >
+       <%} else if(deployment.status[0].state ==="failure") {%>
+      </span>
+      <span
+       class="px-4 py-2 whitespace-no-wrap no-underline rounded-full font-semibold text-sm text-center text-white bg-red-500 border-red-500"
+      >
+       <%} else {%>
+      </span>
+      <span
+       class="px-4 py-2 whitespace-no-wrap no-underline rounded-full font-semibold text-sm text-center text-white bg-gray-500 border-gray-500"
+      >
+       <%}%> <%=deployment.status[0].state%>
+      </span>  
+    </p>
+   </div>
+   <div class="flex justify-between md:block border md:border-none rounded-b-lg md:rounded-b-none">
+    <p class="p-4 leading-4 md:leading-normal text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:rounded-tr-lg md:border-b md:bg-gray-900 '%>">action</p>
+    <div class="flex flex-row">
+      <a
         class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
-        href="<%=deployment.creator.html_url%>"
-        >
-        <p class="p-4 leading-4 md:leading-normal"><%=deployment.creator.login%></p>
-          
-        </a>
-      </div>
-      <%if(index === 0 || (index % 6 !== 0 && index != deployments.length -1)) {%>
-        <div class="bg-gray-100 md:hidden h-4"></div>
-      <%};%>
+        href="/environments/<%=repoId%>/deployment/<%=deployment.id%>"
+        title="Link to deployment #<%=deployment.id%>"
+      >
+      <p class="p-4 leading-4 md:leading-normal">History</p>
+      </a>
+      <a
+        class="text-blue-500 hover:text-blue-800 focus:text-blue-800"
+        href="/environments/<%=repoId%>/deployment/<%=deployment.id%>/delete"
+        title="Delete deployment"
+      >
+        <p class="p-4 leading-4 md:leading-normal">Delete</p>
+      </a>
+    </div>
+   </div>
+   <%if(index === 0 || (index % 6 !== 0 && index != deployments.length -1)) {%>
+    <div class="bg-gray-100 md:hidden h-4"></div>
+   <%};%>
 
-    <%});%>
-  </div>
+  <%});%>
+ </div>
 </div>
 
 <%-include("common/cta.ejs", { url:"/environments", title:"Go back to environments", text:"back to environments" })%>
