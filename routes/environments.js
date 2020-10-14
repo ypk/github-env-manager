@@ -1,7 +1,7 @@
 const express = require("express");
 const createError = require("http-errors");
 const router = express.Router();
-const { getDeployments } = require("../middleware");
+const { getDeployments, deleteDeployment } = require("../middleware");
 const { timeAgo, humanReadable } = require("../helpers");
 
 const gateKeper = async (req, res, next) => {
@@ -34,18 +34,24 @@ router.get("/", gateKeper, async (req, res) => {
 });
 
 const viewParams = (userData, queryParams, message, deployments, req) => {
-  return {
-      user: userData,
-      repoId: queryParams.repoId,
-      deploymentId: queryParams.deploymentId,
-      message: message,
-      deployments: deployments,
-      helpers: {
-        timeAgo,
-        humanReadable,
-      },
-      reqUrl: req.url
+  const params = {
+    user: userData,
+    message: message,
+    helpers: {
+      timeAgo,
+      humanReadable,
+    },
+    reqUrl: req.url
+  };
+  if(queryParams) {
+    Object.assign(params, queryParams);
   }
+  if(deployments) {
+    Object.assign(params, {
+      deployments: deployments
+    });
+  }
+  return params;
 };
 
 const renderTemplate = async (res, req, messages, viewName ) => {
@@ -55,11 +61,11 @@ const renderTemplate = async (res, req, messages, viewName ) => {
     const repoId = queryParams.repoId;
     let deployments = await getDeployments(req, repoId);
     if (deployments.length === 0) {
-      req.session.message = messages.notFoundMessage;
+      req.session.message = messages.altNotification;
       req.session.updateMessage = true;
       res.redirect("/environments");
     } else {
-      let message = messages.foundMessage;
+      let message = req.session.updateMessage ? req.session.message : messages.notification;
       let viewProps = viewParams(userData, queryParams, message, deployments, req);
       res.render(viewName, viewProps);
     }
@@ -78,8 +84,8 @@ router.get("/:repoId", gateKeper, async (req, res) => {
   const repoId = queryParams.repoId;
   const repoName = await getRepositoryNameById(req, repoId);
   const message = {
-    "notFoundMessage": "That repository does not contain any deployments",
-    "foundMessage": `displaying deployment(s) for \`${repoName}\` (${repoId})`
+    "altNotification": "That repository does not contain any deployments",
+    "notification": `displaying deployment(s) for \`${repoName}\` (${repoId})`
   };
   const viewName = "deployments";
   renderTemplate(res, req, message, viewName);
@@ -88,18 +94,27 @@ router.get("/:repoId", gateKeper, async (req, res) => {
 router.get("/:repoId/deployment/:deploymentId", gateKeper, async (req, res) => {
   const queryParams = req.params;
   const repoId = queryParams.repoId;
+  const deploymentId = queryParams.deploymentId;
   const repoName = await getRepositoryNameById(req, repoId);
   const message = {
-    "notFoundMessage": "That deployment does not contain any statuses",
-    "foundMessage": `displaying status(es) for \`${repoName}\` (${repoId}) deployment #${queryParams.repoId}`
+    "altNotification": "That deployment does not contain any statuses",
+    "notification": `displaying status(es) for \`${repoName}\` (${repoId}) deployment #${deploymentId}`
   };
   const viewName = "manage-deployments";
   renderTemplate(res, req, message, viewName);
 });
 
-router.get("/:repoId/deployment/:deploymentId/delete/:statusId", gateKeper, async (req, res) => {
+router.get("/:repoId/deployment/:deploymentId/delete", gateKeper, async (req, res) => {
   const queryParams = req.params;
   if (queryParams && Object.keys(queryParams).length > 0) {
+    const repoId = queryParams.repoId;
+    const deploymentId = queryParams.deploymentId;
+    const response = await deleteDeployment(req, repoId, deploymentId);
+    if(response === 204) {
+      req.session.message = "The deployment was deleted successfully!";
+      req.session.updateMessage = true;
+      res.redirect(`/environments/${repoId}`);
+    }
   } else {
     res.redirect("/:repoId/deployment/:deploymentId");
   }

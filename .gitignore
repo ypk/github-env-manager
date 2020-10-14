@@ -40,6 +40,9 @@ build/Release
 # Session directories
 sessions/
 
+#styles
+public/css/styles.css
+
 # Dependency directories
 node_modules/
 jspm_packages/
