@@ -1,22 +1,9 @@
 const express = require("express");
-const createError = require("http-errors");
 const router = express.Router();
-const { getDeployments, deleteDeployment } = require("../middleware");
+const { gateKeeper, getDeployments, deleteDeployment } = require("../middleware");
 const { timeAgo, humanReadable } = require("../helpers");
 
-const gateKeper = async (req, res, next) => {
-  if (req.session.user) {
-    if (req.session.pat) {
-      next();
-    } else {
-      res.redirect("/authorize");
-    }
-  } else {
-    return next(createError(401, "Unauthorized Access"));
-  }
-}
-
-router.get("/", gateKeper, async (req, res) => {
+router.get("/", gateKeeper, async (req, res) => {
   if(req.session.updateMessage) {
     req.session.updateMessage = false;
   } else {
@@ -79,7 +66,7 @@ const getRepositoryNameById = async (req, repoId) => {
   return await repoData.find(repo => repo.id == repoId).name;
 };
 
-router.get("/:repoId", gateKeper, async (req, res) => {
+router.get("/:repoId", gateKeeper, async (req, res) => {
   const queryParams = req.params;
   const repoId = queryParams.repoId;
   const repoName = await getRepositoryNameById(req, repoId);
@@ -91,7 +78,7 @@ router.get("/:repoId", gateKeper, async (req, res) => {
   renderTemplate(res, req, message, viewName);
 });
 
-router.get("/:repoId/deployment/:deploymentId", gateKeper, async (req, res) => {
+router.get("/:repoId/deployment/:deploymentId", gateKeeper, async (req, res) => {
   const queryParams = req.params;
   const repoId = queryParams.repoId;
   const deploymentId = queryParams.deploymentId;
@@ -104,7 +91,7 @@ router.get("/:repoId/deployment/:deploymentId", gateKeper, async (req, res) => {
   renderTemplate(res, req, message, viewName);
 });
 
-router.get("/:repoId/deployment/:deploymentId/delete", gateKeper, async (req, res) => {
+router.get("/:repoId/deployment/:deploymentId/delete", gateKeeper, async (req, res) => {
   const queryParams = req.params;
   if (queryParams && Object.keys(queryParams).length > 0) {
     const repoId = queryParams.repoId;
