@@ -46,7 +46,7 @@
     <p class="p-4 leading-4 md:leading-normal"><%=deployment.creator.login%></p>
     </a>
    </div>
-   <div class="flex justify-between md:block border md:border-none rounded-b-lg md:rounded-b-none">
+   <div class="flex justify-between md:block border border-b-0 md:border-none md:border-b">
     <p class="p-4 text-xs font-semibold tracking-wide text-left text-gray-800 md:text-white uppercase bg-gray-50 <%=index !== 0 ? 'md:hidden md:h-0 md:p-0': 'md:border-b md:bg-gray-900 '%>">status</p>
     <p class="p-4 leading-4 md:leading-normal">
      <%if(deployment.status[0].state ==="success") {%>
