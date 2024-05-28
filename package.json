@@ -17,7 +17,7 @@
     "cssnano": "^5.1.13",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
-    "ejs": "~3.1.7",
+    "ejs": "~3.1.10",
     "express": "~4.19.2",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
